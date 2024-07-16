@@ -1,6 +1,37 @@
+
 import { Link } from "react-router-dom";
+import { axiosCommon } from "../../hooks/useAxiosCommon";
 
 const Register = () => {
+
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        const form = e.target;
+        const name = form.name.value;
+        const pin = form.pin.value;
+        const phoneNumber = form.phoneNumber.value;
+        const email = form.email.value;
+
+        const userInfo = {
+            name,
+            pin,
+            phoneNumber,
+            email,
+            status: 'pending',
+            role: 'user',
+            balance: 0
+        }
+        
+
+        try {
+            const {data} = await axiosCommon.post('/users', userInfo)
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="md:w-1/3 w-full px-2">
@@ -13,7 +44,7 @@ const Register = () => {
           <h1 className="text-3xl uppercase">Register</h1>
         </div>
         <div className="border p-8 w-full">
-          <form className="space-y-4"> 
+          <form onSubmit={handleSubmit} className="space-y-4"> 
             <div>
               <label htmlFor="name">Enter Name</label> <br />
               <input
