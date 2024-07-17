@@ -1,9 +1,10 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosCommon } from "../../hooks/useAxiosCommon";
 import toast from "react-hot-toast";
 
 const Register = () => {
+    const navigate = useNavigate()
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -26,6 +27,7 @@ const Register = () => {
             const {data} = await axiosCommon.post('/users', userInfo)
             if(data.insertedId){
                 toast.success('User created!')
+                navigate('/')
             }
         } catch (error) {
             toast.error(`${error.response.data.message}`)

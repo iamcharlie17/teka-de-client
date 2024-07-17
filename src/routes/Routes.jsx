@@ -5,6 +5,11 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import MainLayout from "../LayOuts/MainLayout/MainLayout";
 import UserDashboard from "../pages/Dashboad/User/UserDashboard";
+import UserFunctions from "../pages/Dashboad/User/UserFunctions/UserFunctions";
+import AgentDashboard from "../pages/Dashboad/Agent/AgentDashboard";
+import AgentFunctions from "../pages/Dashboad/Agent/AgentFunctions/AgentFunctions";
+import AdminDashboard from "../pages/Dashboad/Admin/AdminDashboard";
+import AdminFunctions from "../pages/Dashboad/Admin/AdminFunctions/AdminFunctions";
 
  export const router = createBrowserRouter([
     {
@@ -21,7 +26,33 @@ import UserDashboard from "../pages/Dashboad/User/UserDashboard";
         },
         {
             path: '/user/dashboard',
-            element: <UserDashboard/>
+            element: <UserDashboard/>,
+            children: [
+                {
+                    path: '/user/dashboard',
+                    element: <UserFunctions/>
+                }
+            ]
+        },
+        {
+            path: '/agent/dashboard',
+            element: <AgentDashboard/>,
+            children: [
+                {
+                    path: '/agent/dashboard',
+                    element: <AgentFunctions/>
+                }
+            ]
+        },
+        {
+            path: '/admin/dashboard',
+            element: <AdminDashboard/>,
+            children: [
+                {
+                    path: '/admin/dashboard',
+                    element: <AdminFunctions/>
+                }
+            ]
         }
       ]
     },
