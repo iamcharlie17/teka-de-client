@@ -10,7 +10,6 @@ const UserManagement = () => {
   const [control, setControl] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
-
   //   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
@@ -43,10 +42,23 @@ const UserManagement = () => {
       });
   };
 
+  const handleRole = async (value) => {
+    // console.log(value);
+    try {
+      const { data } = await axiosCommon.put("/update-role", value);
+      if (data.modifiedCount > 0) {
+        toast.success("Role Update Success!!");
+        setControl(!control);
+      }
+    } catch (error) {
+      toast.error(`${error.message}`);
+    }
+  };
+
   return (
     <div>
       <div className="overflow-x-auto text-black">
-        <div className="flex justify-between items-center mx-4">
+        <div className="flex justify-between items-center mx-4 my-2">
           <div>
             <Link to={"/admin/dashboard"}>
               <button>Back</button>
@@ -116,7 +128,42 @@ const UserManagement = () => {
                       </ul>
                     </div>
                   </td>
-                  <td>{u?.role}</td>
+                  <td>
+                    <div className={` dropdown-top dropdown dropdown-end`}>
+                      <div tabIndex={0} role="button" className=" m-1">
+                        {u?.role}
+                      </div>
+                      <ul
+                        tabIndex={0}
+                        className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow"
+                      >
+                        <li
+                          onClick={() =>
+                            handleRole({ role: "user", id: u?._id })
+                          }
+                          className="shadow-lg"
+                        >
+                          <a>User</a>
+                        </li>
+                        <li
+                          onClick={() =>
+                            handleRole({ role: "agent", id: u?._id })
+                          }
+                          className="shadow-lg"
+                        >
+                          <a>Agent</a>
+                        </li>
+                        <li
+                          onClick={() =>
+                            handleRole({ role: "admin", id: u?._id })
+                          }
+                          className="shadow-lg"
+                        >
+                          <a>Admin</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
                 </tr>
               ))}
           </tbody>
