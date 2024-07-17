@@ -1,7 +1,49 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { axiosCommon } from "../../hooks/useAxiosCommon";
+import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
+
+    const navigate = useNavigate()
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        const form = e.target;
+        const emailOrPhone = form.emailOrPhone.value;
+        const pin = form.pin.value;
+        const loginInfo = {
+            emailOrPhone,
+            pin
+        }
+        try {
+            const {data} = await axiosCommon.post('/login', loginInfo)
+            const {token, user} = data;
+
+            localStorage.setItem('token', token)
+            localStorage.setItem('user', JSON.stringify(user))
+         
+
+            if(user.role === 'user') {
+                navigate('/user/dashboard')
+            }
+            else if(user.role === 'agent'){
+                navigate('/agent/dashboard')
+            }
+            else if(user.role === 'admin'){
+                navigate('/admin/dashboard')
+            }
+            else{
+                navigate('/')
+            }
+        } catch (error) {
+            toast.error(`${error.response.data.message}`)
+        }
+    }
   return (
+    <>
+    <Helmet>
+        <title>TEKA DE | LOGIN</title>
+    </Helmet>
     <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="md:w-1/3 w-full px-2">
         <div>
@@ -10,10 +52,10 @@ const Login = () => {
           </h1>
         </div>
         <div className="text-center md:my-8 my-4">
-          <h1 className="text-3xl uppercase">Log In</h1>
+          <h1 className="text-3xl uppercase">LogIn</h1>
         </div>
         <div className="border p-8 w-full">
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="emailOrPhone">Email or Phone Number</label> <br />
               <input
@@ -50,6 +92,8 @@ const Login = () => {
         </div>
       </div>
     </div>
+    </>
+    
   );
 };
 

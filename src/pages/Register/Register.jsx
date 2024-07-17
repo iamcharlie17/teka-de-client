@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { axiosCommon } from "../../hooks/useAxiosCommon";
+import toast from "react-hot-toast";
 
 const Register = () => {
 
@@ -20,16 +21,15 @@ const Register = () => {
             status: 'pending',
             role: 'user',
             balance: 0
-        }
-        
-
+        } 
         try {
             const {data} = await axiosCommon.post('/users', userInfo)
-            console.log(data)
+            if(data.insertedId){
+                toast.success('User created!')
+            }
         } catch (error) {
-            console.log(error)
+            toast.error(`${error.response.data.message}`)
         }
-
     }
 
   return (
