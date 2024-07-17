@@ -1,15 +1,23 @@
+import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { Outlet, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const AgentDashboard = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+    const {user, loading, setUser} =useContext(AuthContext)
+//   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  console.log(user)
+//   console.log(`user from token: ${JSON.stringify(currentUser)}`)
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    setUser(null)
+    // localStorage.removeItem("user");
     navigate("/");
   };
+
+  if(loading) return <h1>Loading...</h1>
 
   return (
     <div>
@@ -20,7 +28,7 @@ const AgentDashboard = () => {
         <div className="bg-lime-500 w-full py-4 text-center shadow-lg">
           <h1 className="text-3xl md:text-5xl font-extrabold">TEKA DE</h1>
           <h1 className="text-xl">
-            {user.name} ({user.role.toUpperCase()})
+            {user?.name || ''} ({user?.role?.toUpperCase()})
           </h1>
         </div>
         <Outlet />

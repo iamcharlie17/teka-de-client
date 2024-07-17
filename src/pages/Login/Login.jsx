@@ -2,8 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { axiosCommon } from "../../hooks/useAxiosCommon";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Login = () => {
+  const {fetchUserData} = useContext(AuthContext)
 
     const navigate = useNavigate()
     const handleSubmit = async(e) => {
@@ -20,8 +23,9 @@ const Login = () => {
             const {token, user} = data;
 
             localStorage.setItem('token', token)
-            localStorage.setItem('user', JSON.stringify(user))
-         
+            // localStorage.setItem('user', JSON.stringify(user))
+            
+            fetchUserData()
 
             if(user.role === 'user') {
                 navigate('/user/dashboard')
@@ -47,13 +51,13 @@ const Login = () => {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="md:w-1/3 w-full px-2">
         <div>
-          <h1 className="text-5xl font-bold text-center">
+          <h1 className="text-5xl font-bold text-center my-4">
             TEKA <span className="text-amber-500">DE</span>
           </h1>
         </div>
-        <div className="text-center md:my-8 my-4">
+        {/* <div className="text-center md:my-8 my-4">
           <h1 className="text-3xl uppercase">LogIn</h1>
-        </div>
+        </div> */}
         <div className="border p-8 w-full">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

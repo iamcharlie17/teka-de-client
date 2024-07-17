@@ -1,14 +1,17 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { axiosCommon } from "../../../../hooks/useAxiosCommon";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../../../providers/AuthProvider";
 
 const UserManagement = () => {
+  const { user } = useContext(AuthContext);
+
   const [users, setUsers] = useState([]);
   const [control, setControl] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
+  //   const user = JSON.parse(localStorage.getItem("user"));
 
   //   const axiosSecure = useAxiosSecure();
 
