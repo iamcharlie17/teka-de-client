@@ -10,6 +10,7 @@ import AgentDashboard from "../pages/Dashboad/Agent/AgentDashboard";
 import AgentFunctions from "../pages/Dashboad/Agent/AgentFunctions/AgentFunctions";
 import AdminDashboard from "../pages/Dashboad/Admin/AdminDashboard";
 import AdminFunctions from "../pages/Dashboad/Admin/AdminFunctions/AdminFunctions";
+import UserManagement from "../pages/Dashboad/Admin/UserManagement/UserManagement";
 
  export const router = createBrowserRouter([
     {
@@ -51,6 +52,10 @@ import AdminFunctions from "../pages/Dashboad/Admin/AdminFunctions/AdminFunction
                 {
                     path: '/admin/dashboard',
                     element: <AdminFunctions/>
+                },
+                {
+                    path: '/admin/dashboard/user-management',
+                    element: <UserManagement/>
                 }
             ]
         }
